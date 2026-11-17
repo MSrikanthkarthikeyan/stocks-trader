@@ -1,8 +1,0 @@
-{
-  "version": 2,
-  "routes": [
-    { "src": "/api/(.*)", "dest": "https://stocks-trader-api.onrender.com/api/$1" },
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/(.*)", "dest": "/static/index.html" }
-  ]
-}

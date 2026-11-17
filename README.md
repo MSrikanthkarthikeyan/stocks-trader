@@ -74,6 +74,27 @@ Run the automated checks with:
 node --check static\app.js
 ```
 
+## Deploy the complete app on Render
+
+The recommended deployment is one Render web service. FastAPI serves both the API and the static frontend, so this produces one shareable URL without a separate frontend proxy or CORS setup.
+
+1. Open the Render Blueprint import page:
+   <https://dashboard.render.com/blueprints/new?repo=https://github.com/MSrikanthkarthikeyan/stocks-trader>
+2. Sign in to Render with GitHub if prompted.
+3. Confirm the repository and branch are `main`.
+4. Review the service named `stocks-trader` and click **Apply**.
+5. After the first deploy finishes, open the generated `onrender.com` URL. That is the complete application link.
+6. In Render **Environment**, add `GEMINI_API_KEY` if you want AI signals and assistant answers. `GEMINI_MODEL` defaults to `gemini-2.5-flash`.
+7. Verify the deployment at `<your-render-url>/api/status` and open `<your-render-url>/docs` for the API documentation.
+
+The Blueprint uses `render.yaml` and runs:
+
+```text
+uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+```
+
+Render's free service may sleep after inactivity; its first request after sleeping can take a little longer. NSE data remains delayed and this application is advisory/paper-only—there is no broker connection or order placement.
+
 Useful endpoints: `/api/status`, `/api/market/quotes`, `/api/market/universe/nifty50`, `/api/market/universe/nifty100`, `/api/portfolio/summary`, `/api/portfolio/analysis`, `/api/signals`, and `/api/market/tools`.
 
 Run the focused local checks with `.venv\Scripts\python.exe -m unittest discover -s tests -v`.
